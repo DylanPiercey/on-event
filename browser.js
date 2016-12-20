@@ -82,9 +82,11 @@ function handleEvent (e) {
   do {
     var id = target.getAttribute(attr)
     var handler = handlers[id]
-    if (!handler) continue
-    Object.defineProperty(e, 'currentTarget', { value: target })
-    handler(e)
+    if (handler) {
+      Object.defineProperty(e, 'currentTarget', { value: target })
+      handler(e)
+    }
+
     if (e.cancelBubble) break
     target = target.parentNode
   } while (e.bubbles && target !== document)
