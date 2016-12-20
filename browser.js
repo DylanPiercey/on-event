@@ -80,16 +80,13 @@ function handleEvent (e) {
 
   // Look through nodes for registered handlers.
   do {
-    var id = target.getAttribute(attr)
-    var handler = handlers[id]
+    var handler = handlers[target.getAttribute(attr)]
     if (handler) {
       Object.defineProperty(e, 'currentTarget', { value: target })
       handler(e)
     }
-
-    if (e.cancelBubble) break
-    target = target.parentNode
-  } while (e.bubbles && target !== document)
+    if (e.cancelBubble || !e.bubbles) break
+  } while ((target = target.parentNode))
 }
 
 /**
